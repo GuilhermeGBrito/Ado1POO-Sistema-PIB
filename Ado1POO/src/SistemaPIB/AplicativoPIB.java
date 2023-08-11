@@ -65,7 +65,7 @@ public class AplicativoPIB {
     }
 
     public void gerarArquivoSaida(String arquivo) throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("C:\\Users\\guivi\\eclipse-workspace\\Ado1POO\\src\\SistemaPIB\\New.txt"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("saida.txt"))) {
             for (Regiao regiao : regioes.values()) {
                 double totalPIBRegiao = regiao.estados.stream().mapToDouble(e -> e.pib).sum();
                 writer.printf("%s: %.2f%n", regiao.nome, totalPIBRegiao);
