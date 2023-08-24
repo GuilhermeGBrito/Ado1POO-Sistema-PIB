@@ -1,9 +1,7 @@
 package SistemaPIB;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,16 +11,16 @@ import java.util.Map;
 public class AplicativoPIB {
     private List<Estado> estados;
     private Map<String, Regiao> regioes;
-    
-    
+    private Arquivo arquivo;
 
     public AplicativoPIB() {
         this.estados = new ArrayList<>();
         this.regioes = new HashMap<>();
+        this.arquivo = new Arquivo();
     }
 
-    public void carregarEstados(String arquivo) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\guivi\\eclipse-workspace\\Ado1POO\\src\\SistemaPIB\\pib.txt"))) {
+    public void carregarEstados(String nomeArquivo) throws IOException {
+        try (BufferedReader reader = arquivo.lerArquivo(nomeArquivo)) {
             String linha;
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(";");
@@ -34,8 +32,8 @@ public class AplicativoPIB {
         }
     }
 
-    public void carregarRegioes(String arquivo) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("C:\\Users\\guivi\\eclipse-workspace\\Ado1POO\\src\\SistemaPIB\\regioes.txt"))) {
+    public void carregarRegioes(String nomeArquivo) throws IOException {
+        try (BufferedReader reader = arquivo.lerArquivo(nomeArquivo)) {
             String linha;
             Regiao regiaoAtual = null;
             while ((linha = reader.readLine()) != null) {
@@ -64,8 +62,8 @@ public class AplicativoPIB {
         }
     }
 
-    public void gerarArquivoSaida(String arquivo) throws IOException {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("saida.txt"))) {
+    public void gerarArquivoSaida(String nomeArquivo) throws IOException {
+        try (PrintWriter writer = new PrintWriter(nomeArquivo)) {
             for (Regiao regiao : regioes.values()) {
                 double totalPIBRegiao = regiao.estados.stream().mapToDouble(e -> e.pib).sum();
                 writer.printf("%s: %.2f%n", regiao.nome, totalPIBRegiao);
